@@ -3,7 +3,7 @@ name = "fastapi-lazyrouter"
 description = "accelerate fastapi coldstart for function as a service (AWS lambda, ...)"
 authors = ["Fabien Arcellier <fabien.arcellier@gmail.com>"]
 license = "MIT"
-version = "0.1.0rc3"
+version = "0.1.0rc4"
 readme = "README.md"
 packages = [{include = "fastapi_lazyrouter", from = "src"}]
 classifiers = [

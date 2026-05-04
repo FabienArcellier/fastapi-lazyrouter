@@ -58,7 +58,6 @@ def autoconfigure(app: FastAPI) -> None:
                 default_response_class=router.default_response_class,
                 responses=router.responses,
                 callbacks=router.callbacks,
-                routes=router.routes,
                 redirect_slashes=router.redirect_slashes,
                 default=router.default,
                 dependency_overrides_provider=router.dependency_overrides_provider,
@@ -69,6 +68,41 @@ def autoconfigure(app: FastAPI) -> None:
                 include_in_schema=router.include_in_schema,
                 generate_unique_id_function=router.generate_unique_id_function,
             )
+            # Re-add existing APIRoute instances through LazyApiRouter.add_api_route
+            # so that they are deferred instead of being mounted immediately.
+            for route in router.routes:
+                if isinstance(route, APIRoute):
+                    lazy_router.add_api_route(
+                        path=route.path,
+                        endpoint=route.endpoint,
+                        response_model=getattr(route, 'response_model', None) or Default(None),
+                        status_code=getattr(route, 'status_code', None),
+                        tags=getattr(route, 'tags', None),
+                        dependencies=getattr(route, 'dependencies', None),
+                        summary=getattr(route, 'summary', None),
+                        description=getattr(route, 'description', None),
+                        response_description=getattr(route, 'response_description', 'Successful Response'),
+                        responses=getattr(route, 'responses', None),
+                        deprecated=getattr(route, 'deprecated', None),
+                        methods=route.methods if hasattr(route, 'methods') else None,
+                        operation_id=getattr(route, 'operation_id', None),
+                        response_model_include=getattr(route, 'response_model_include', None),
+                        response_model_exclude=getattr(route, 'response_model_exclude', None),
+                        response_model_by_alias=getattr(route, 'response_model_by_alias', True),
+                        response_model_exclude_unset=getattr(route, 'response_model_exclude_unset', False),
+                        response_model_exclude_defaults=getattr(route, 'response_model_exclude_defaults', False),
+                        response_model_exclude_none=getattr(route, 'response_model_exclude_none', False),
+                        include_in_schema=getattr(route, 'include_in_schema', True),
+                        response_class=getattr(route, 'response_class', Default(JSONResponse)),
+                        name=getattr(route, 'name', None),
+                        callbacks=getattr(route, 'callbacks', None),
+                        openapi_extra=getattr(route, 'openapi_extra', None),
+                        generate_unique_id_function=getattr(route, 'generate_unique_id_function', Default(None)),
+                    )
+                else:
+                    # Non-APIRoute objects (e.g. Route, Mount, WebSocketRoute)
+                    # are appended directly since they do not go through add_api_route.
+                    lazy_router.routes.append(route)
             router = lazy_router
 
         _original_include_router(router, *args, **kwargs)
