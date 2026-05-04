@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'blueprint-library-pip'
+project = 'fastapi-lazyrouter'
 copyright = '2026, Fabien Arcellier'
 author = 'Fabien Arcellier'
 
@@ -14,12 +14,13 @@ author = 'Fabien Arcellier'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'sphinx.ext.autodoc'
+    'sphinx.ext.autodoc',
+    'sphinx.ext.napoleon',
+    'sphinx.ext.viewcode',
 ]
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-
 
 
 # -- Options for HTML output -------------------------------------------------
