@@ -1,0 +1,59 @@
+[tool.poetry]
+name = "fastapi-lazyrouter"
+description = "Lazy router implementation for FastAPI"
+authors = ["Fabien Arcellier <fabien.arcellier@gmail.com>"]
+license = "MIT"
+version = "0.1.0rc1"
+readme = "README.md"
+packages = [{include = "fastapi_lazyrouter", from = "src"}]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Environment :: Console"
+]
+
+[tool.poetry.urls]
+"Source code" = "https://github.com/FabienArcellier/fastapi-lazyrouter"
+"Documentation" = "https://fastapi-lazyrouter.readthedocs.io/en/latest/"
+"Issue Tracker" = "https://github.com/FabienArcellier/fastapi-lazyrouter/issues"
+"Chat" = "https://discord.gg/xxxxx"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[tool.poetry.group.dev.dependencies]
+alfred-cli = "^3.0.0"
+mypy = "^1.20.2"
+pytest = "^9.0.3"
+ruff = "^0.8.6"
+toml = "^0.10.2"
+sphinx = "^8.0.0" # last version compatible with python 3.10
+sphinx-rtd-theme = "^3.1.0"
+twine = "^4.0.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint.pycodestyle]
+max-line-length = 320
+
+[tool.ruff.lint.per-file-ignores]
+# "app/migrations/*" = ["E501"]
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+exclude = [
+]
